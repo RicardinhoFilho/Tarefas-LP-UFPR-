@@ -7,9 +7,9 @@
 #define TAMANHO 9
 void menu();
 void desenha_sudoku();
-void valoresAusentesLinha(int linha);
-void valoresAusentesColuna(int coluna);
-void valoresAusentesGrupo(int linha, int coluna);
+void valoresAusentesLinha(int linha, int *vetor, int opcao);
+void valoresAusentesColuna(int coluna, int *vetor, int opcao);
+void valoresAusentesGrupo(int linha, int coluna, int *vetor, int opcao);
 void ComparaVetores(int linha, int coluna, int opcao);
 
 void menu()
@@ -54,71 +54,65 @@ void desenha_sudoku()
     }
 }
 
-void valoresAusentesLinha(int linha)
+void valoresAusentesLinha(int linha, int *vetor, int opcao)
 {
-    int lin, col = 0;
-    int vet_padrao[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int lin, col;
     for (lin = linha; lin < linha + 1; lin++)
     {
-        printf("Linha %d -> ", lin);
         for (col = 0; col < TAMANHO; col++)
         {
 
             if (jogoInicial[lin][col])
             {
-                vet_padrao[jogoInicial[lin][col] - 1] = 0;
+                vetor[jogoInicial[lin][col] - 1] = 0;
             }
         }
+    }
+    if (opcao == 1)
+    {
+
         for (int i = 0; i < TAMANHO; i++)
         {
-            if (vet_padrao[i] > 0)
+            if (vetor[i] > 0)
             {
-                printf(" %d ", vet_padrao[i]);
+                printf(" %d \n", vetor[i]);
             }
         }
-
-        printf("\n");
     }
 }
-
-void valoresAusentesColuna(int coluna)
+void valoresAusentesColuna(int coluna, int *vetor, int opcao)
 {
-
-    int lin, col = 0;
-    int vet_padrao[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int col, lin;
     for (col = coluna; col < coluna + 1; col++)
     {
-        printf("Coluna %d -> ", col);
         for (lin = 0; lin < TAMANHO; lin++)
         {
             if (jogoInicial[lin][coluna])
             {
-                vet_padrao[jogoInicial[lin][col] - 1] = 0;
+                vetor[jogoInicial[lin][col] - 1] = 0;
             }
         }
+    }
+    if (opcao == 2)
+    {
         for (int i = 0; i < TAMANHO; i++)
         {
-            if (vet_padrao[i] > 0)
+            if (vetor[i] > 0)
             {
-                printf(" %d ", vet_padrao[i]);
+                printf(" %d \n", vetor[i]);
             }
         }
-
-        printf("\n");
     }
 }
-
-void valoresAusentesGrupo(int linha, int coluna)
+void valoresAusentesGrupo(int linha, int coluna, int *vetor, int opcao)
 {
-    int i, grup, lin, col;
+    int lin, col;
     int aux_lin = ((int)(linha + 3) / 3) * 3;
     int aux_col = ((int)(coluna + 3) / 3) * 3;
     int aux_lin1 = (((int)(linha + 3) / 3) * 3) - 3;
     int aux_col1 = (((int)(coluna + 3) / 3) * 3) - 3;
-    int cont = 0;
-    //printf("AUX = %d %d ", aux_lin1,aux_col1);
-    int vet_padrao[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    for (i = coluna; i < coluna + 1; i++)
+
+    for (int i = coluna; i < coluna + 1; i++)
     {
 
         for (lin = aux_lin1; lin < aux_lin; lin++)
@@ -127,103 +121,82 @@ void valoresAusentesGrupo(int linha, int coluna)
             {
                 if (jogoInicial[lin][col])
                 {
-                    vet_padrao[(jogoInicial[lin][col]) - 1] = 0;
+                    vetor[(jogoInicial[lin][col]) - 1] = 0;
                 }
             }
         }
-        for (int j = 0; j < TAMANHO; j++)
+    }
+    if (opcao == 3)
+    {
+        for (int i = 0; i < TAMANHO; i++)
         {
-            if (vet_padrao[j] > 0)
+            if (vetor[i] > 0)
             {
-                printf(" %d ", vet_padrao[j]);
+                printf(" %d \n", vetor[i]);
             }
         }
     }
 }
-
 void ComparaVetores(int linha, int coluna, int opcao)
 {
-    if (jogoInicial[linha][coluna] == 0)
+    int vet_padrao[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    if (opcao == 4 || opcao == 5 || opcao == 6)
     {
-        int vet_padrao[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        int vet_imp[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        int lin, col = 0;
-        int vet_linha[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        for (lin = linha; lin < linha + 1; lin++)
+        if (jogoInicial[linha][coluna] == 0)
         {
-            for (col = 0; col < TAMANHO; col++)
+            int vet_imp[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+            int lin, col;
+            int cont = 0;
+            int vet_linha[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+            valoresAusentesLinha(1, vet_linha, opcao);
+            int vet_coluna[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+            valoresAusentesColuna(coluna, vet_coluna, opcao);
+            int vet_grupo[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+            valoresAusentesGrupo(linha, coluna, vet_grupo, opcao);
+            for (int i = 0; i < TAMANHO; i++)
             {
-
-                if (jogoInicial[lin][col])
+                if ((vet_linha[i] && vet_coluna[i] && vet_grupo[i] != 0))
                 {
-                    vet_linha[jogoInicial[lin][col] - 1] = 0;
+                    vet_imp[i] = 0;
+                    cont++;
+                }
+                else
+                {
+                    vet_padrao[i] = 0;
                 }
             }
-        }
-        lin, col = 0;
-        int vet_coluna[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        for (col = coluna; col < coluna + 1; col++)
-        {
-            for (lin = 0; lin < TAMANHO; lin++)
+            for (int i = 0; i < TAMANHO; i++)
             {
-                if (jogoInicial[lin][coluna])
+                if (vet_padrao[i] > 0 && opcao == 4)
                 {
-                    vet_coluna[jogoInicial[lin][col] - 1] = 0;
+                    printf(" %d \n", vet_padrao[i]);
+                }
+                else if (vet_imp[i] > 0 && opcao == 5)
+                {
+                    printf(" %d \n", vet_imp[i]);
                 }
             }
-        }
-        int aux_lin = ((int)(linha + 3) / 3) * 3;
-        int aux_col = ((int)(coluna + 3) / 3) * 3;
-        int aux_lin1 = (((int)(linha + 3) / 3) * 3) - 3;
-        int aux_col1 = (((int)(coluna + 3) / 3) * 3) - 3;
-
-        int vet_grupo[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        for (int i = coluna; i < coluna + 1; i++)
-        {
-
-            for (lin = aux_lin1; lin < aux_lin; lin++)
+            if (opcao == 6)
             {
-                for (col = aux_col1; col < aux_col; col++)
-                {
-                    if (jogoInicial[lin][col])
-                    {
-                        vet_grupo[(jogoInicial[lin][col]) - 1] = 0;
-                    }
-                }
+                printf("%d possibilidades!\n", cont);
             }
         }
-        int cont;
-        for (int i = 0; i < TAMANHO; i++)
+        else
         {
-            if ((vet_linha[i] && vet_coluna[i] && vet_grupo[i] != 0))
-            {
-                vet_imp[i] = 0;
-                cont++;
-            }
-            else
-            {
-                vet_padrao[i] = 0;
-            }
-        }
-        for (int i = 0; i < TAMANHO; i++)
-        {
-            if (vet_padrao[i] > 0 && opcao == 4)
-            {
-                printf(" %d ", vet_padrao[i]);
-            }
-            else if (vet_imp[i] > 0 && opcao == 5)
-            {
-                printf(" %d ", vet_imp[i]);
-            }
-        }
-        if (opcao == 6)
-        {
-            printf("%d possibilidades!", cont);
+            printf("Esta Célula já está preenchida");
         }
     }
-    else
+    else if (opcao == 1)
     {
-        printf("Esta Célula já está preenchida");
+        valoresAusentesLinha(linha, vet_padrao, opcao);
+    }
+    else if (opcao == 2)
+    {
+        valoresAusentesColuna(coluna, vet_padrao, opcao);
+    }
+    else if (opcao == 3)
+    {
+        valoresAusentesGrupo(linha, coluna, vet_padrao, opcao);
     }
 }
 int main()
@@ -243,20 +216,20 @@ int main()
             printf("Defina a Linha X:");
             scanf("%d", &linha);
             printf("Valores Ausentes da Linha[%d]\n\n", linha);
-            valoresAusentesLinha(linha);
+            ComparaVetores(linha, 0, opcao);
             break;
         case 2:
             printf("Defina a Coluna Y:");
             scanf("%d", &coluna);
             printf("Valores Ausentes da Coluna[%d]\n\n", coluna);
-            valoresAusentesColuna(coluna);
+            ComparaVetores(0, coluna, opcao);
             break;
         case 3:
             printf("Defina o Grupo Z:\n");
             scanf("%d", &linha);
             scanf("%d", &coluna);
             printf("Valores Ausentes do Grupo [%d][%d]\n\n", linha, coluna);
-            valoresAusentesGrupo(linha, coluna);
+            ComparaVetores(linha, coluna, 3);
             break;
         case 4:
             printf("Defina a Célula[linha][coluna]:\n");
