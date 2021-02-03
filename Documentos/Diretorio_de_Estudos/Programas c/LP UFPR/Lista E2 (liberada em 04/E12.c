@@ -1,41 +1,18 @@
-/*E12) Faça uma função setBit que receba dois parâmetros (nro e bit), 
- a função deve modificar o valor de nro de tal forma que o n-bit seja modificado para 1 e retornar o novo valor.
 
-Complemente o código abaixo:*/
-
-//https://gist.github.com/FelipeGrijo
+/*E12) Faça uma função setBit que receba dois parâmetros (nro e bit),
+a função deve modificar o valor de nro de tal forma que o n-bit seja modificado para 
+1 e retornar o novo valor.*/
 #include <stdio.h>
-//#include <conio.h>
-#include <math.h>
 
-int Primo(int numero){
-    int i=0;
-    int p=1;
-
-    for(i=2;i<numero;i++){
-        if(numero%i==0){
-            p=0;
-        }
-    }
-    return p;
+int resetBit(int nro, int bit)
+{
+    nro ^= 1UL << bit;
+    return nro;
 }
 
-int main(){
-    int Num,Resultado;
-    printf("Digite um numero:");
-    scanf("%d",&Num);
-
-    Resultado=Primo(Num);
-
-    //printf("%d\n",Resultado);
-
-    if(Resultado == 1){
-        printf("Numero primo.\n");
-    }
-    else{
-        printf("Numero nao e primo.\n");
-    }
-
-    getchar();
-    return 0;
+int main()
+{
+    int num, bit;
+    scanf("%d %d", &num, &bit);
+    printf("%d\n", resetBit(num,bit));
 }
